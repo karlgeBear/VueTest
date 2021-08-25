@@ -27,10 +27,44 @@
   1. 功能类型于v-text, 但转换为全大写
   2. 功能类型于v-text, 但转换为全小写
 -->
+<div id="test">
+  <p v-upper-text="msg"></p>
+  <p v-lower-text="msg"></p>
 
+</div>
+<div id="test2">
+  <p v-upper-text="msg"></p>
+  <p v-lower-text="msg"></p>
+
+</div>
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
-
+//1. 注册全局指令
+/* 
+  el:指定所在的标签元素
+  binging:包含指令相关数据的对象
+*/
+  Vue.directive('upper-text', function(el, binding){ //bing是一个对象
+    el.textContent = binding.value.toUpperCase()
+  })
+  new Vue({
+    el: "#test",
+    data: {
+      msg: "NBA I Only Love Kobe Bryant"
+    },
+  //2. 注册局部指令
+    directives : { //所有的函数都是一个字符串
+      'lower-text' (el, binding) {
+        el.textContent = binding.value.toLowerCase()
+      }
+    }
+  })
+  new Vue({
+    el: "#test2",
+    data: {
+      msg: "NBA I Only Love Kobe Bryant"
+    }
+  })
 </script>
 </body>
 </html>

@@ -12,7 +12,7 @@
     * created()
     * beforeMount()
     * mounted()
-  2). 更新状态
+  2). 更新数据
     * beforeUpdate()
     * updated()
   3). 销毁vue实例: vm.$destory()
@@ -26,6 +26,7 @@
 <div>
   <button @click="destroyVM">destroy vue</button>
   <p v-show="isShow">xxxx</p>
+  <p ref="content">{{isShow ? '真' : '假' }}</p>
 </div>
 
 <script type="text/javascript" src="../js/vue.js"></script>
@@ -34,11 +35,25 @@
     data: {
       isShow: true
     },
+
+    beforeCreate() {  //不能通过vm读取data中的数据
+      console.log('boforeCreate()',this.isShow) //init之前
+    },
+    //在create前后的中间：实现数据代理/data数据的监视
+    created() { //init之后 可以通过vm读取data中的数据
+      console.log('created()',this.isShow) //undefined
+    },
+
+    beforeMount() { //不能通过ref读取页面标签对象
+      console.log('beforeMount()',this.$refs.content) //<p>content<p>
+    },
+    //在mount前后的中间 初始第一次显示/渲染界面
     /* 
     界面初始显示之后立即回调
     一般在此执行异步操作：发ajax请求/启动定时器/订阅消息/绑定自定义时间监听
     */
-    mounted() {
+    mounted() {  //可以通过vm读取标签对象
+      console.log('mounted()',this.$refs.content)
       this.setIntervalId = setInterval(function () {
         this.isShow = !this.isShow
         console.log('------')
@@ -49,9 +64,21 @@
       3.在调用时指定原函数执行的this为bind()的第一个参数
       */
     },
+
+    beforeUpdate() {  //看到的界面老的界面（数据已经更新，指的是页面更新之前
+      console.log('beforeUpdate()',this.isShow,this.$refs.content.innerText)
+    },
+    //在update前后的中间 更新界面(数据已经更新)
+    updated() {  //看到新的界面（页面更新之后
+      console.log('updated()',this.isShow,this.$refs.content.innerText)
+    },
     //在vm死亡之前做一些收尾的工作
     beforeDestroy() {
+      console.log('beforeDestroy()')
       clearInterval(this.setIntervalId)
+    },
+    destroyed() {
+      console.log('destroyed()')
     },
     methods: {
       destroyVM(){
