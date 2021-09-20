@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 3. 使用组件 -->
+    <App></App>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+    /* 
+      注册组件三部曲
+      1. 创建组件构造器
+      2. 注册组件
+      3. 使用组件
+     */
+
+    // 局部注册使用方法
+    //1. 创建组件构造器
+/*     var App = Vue.extend({
+      template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
+      data: function () {
+        return {
+          firstName: 'Walter',
+          lastName: 'White',
+          alias: 'Heisenberg'
+        }
+      }
+    });
+    new Vue({
+      components: {
+        // 2. 注册组件
+        'App': App
+      },
+      template: '<App/>'
+    }).$mount('#app') */
+
+    // 全局注册组件
+    //1创建组件构造器
+    // var App = Vue.extend({
+    //     template: '<p>This is a component</p>'
+    // });
+    // //2全局注册组件
+    // Vue.component('App', App);
+    // //3使用组件
+    // var vm = new Vue({
+    //     el: '#app'
+    // })
+
+    // 简化以上两种写法
+    new Vue({
+        el: '#app',
+        //注册组件的时候定义组件构造器
+        components: {
+            'App': {
+                template: '<p>This is a component, it belong {{name}}</p>',
+                data: function () {
+                  return {
+                    name:'world'
+                  }
+                }
+            }
+        }
+        })
+  </script>
+</body>
+
+</html>
