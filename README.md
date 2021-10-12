@@ -43,7 +43,7 @@
 	回调函数默认有event参数, 但也可以指定自己的参数
 	所有的方法由vue对象来调用, 访问data中的属性直接使用this.xxx
 
-## 4). computed
+## 4). computed （擅长处理的场景：一个数据受多个数据影响 ）
 	包含多个方法的对象
 	对状态属性进行计算返回一个新的数据, 供页面获取显示
 	一般情况下是相当于是一个只读的属性
@@ -52,7 +52,7 @@
 		在创建对象时指定: get name () {return xxx} / set name (value) {}
 	  	对象创建之后指定: Object.defineProperty(obj, age, {get(){}, set(value){}})
 
-## 5). watch
+## 5). watch（擅长处理的场景：多个数据受一个数据影响）
 	包含多个属性监视的对象
 	分为一般监视和深度监视
 		'xxx' : {
