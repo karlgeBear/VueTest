@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 3. 使用组件 -->
+    <App></App>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+  let vm = new Vue()
+  let cm = Vue.extend({
+    template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
+    data: function () {
+      return {
+        firstName: 'Walter',
+        lastName: 'White',
+        alias: 'Heisenberg'
+      }
+    }
+  });
+  let a = new cm()   //cm=VueComponet
+  console.log('Vue:',Vue)
+  console.log('Vue.prototype',Vue.prototype)
+  console.log('vue实例：',vm)
+  console.log('vue实例的原型：',vm.__proto__)
+  console.log('组件实例：',a)
+  console.log('组件实例的原型：',a.__proto__)
+  console.log('判断实例原型：',a.__proto__.__proto__ === vm.__proto__)  // true
+  console.log('判断构造原型：',cm.prototype.__proto__ === Vue.prototype)  // true
+  // 总结：让组件实例对象（vc）可以访问到 Vue原型上的属性、方法。组件实例对象（vc）是一个小型的vm ,没有el.data只能是对象式
+  </script>
+</body>
+
+</html>
