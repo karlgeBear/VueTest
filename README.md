@@ -148,3 +148,84 @@
 
 ## 3). 使用指令
     <div v-my-directive='xxx'>
+
+# 9. key的作用
+    1. 虚拟DOM的key的作用?
+       1). 简单的说: key是虚拟DOM对象的标识, 在更新显示时key起着极其重要的作用
+       2). 详细的说: 当列表数组中的数据发生变化生成新的虚拟DOM后, React进行新旧虚拟DOM的diff比较
+           a. key没有变
+               item数据没变, 直接使用原来的真实DOM
+               item数据变了, 对原来的真实DOM进行数据更新
+           b. key变了
+               销毁原来的真实DOM, 根据item数据创建新的真实DOM显示(即使item数据没有变)
+    2. key为index的问题
+       1). 添加/删除/排序 => 产生没有必要的真实DOM更新 ==> 界面效果没问题, 但效率低
+       2). 如果item界面还有输入框 => 产生错误的真实DOM更新 ==> 界面有问题
+       注意: 如果不存在添加/删除/排序操作, 用index没有问题
+    3. 解决:
+       使用item数据的标识数据作为key, 比如id属性值
+# 10. extend构造器
+## 1.理解
+		注册组件三部曲：1. 创建组件构造器	2. 注册组件	3. 使用组件
+## 2. 注册组件
+```
+//直接挂载到元素上
+new Vue.extend({}).$mount('#app')  //这个方法返回实例自身，因而可以链式调用其它实例方法
+
+//局部注册使用方法
+1. 创建组件构造器
+var App = Vue.extend({
+  template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
+  data: function () {
+    return {
+      firstName: 'Walter',
+      lastName: 'White',
+      alias: 'Heisenberg'
+    }
+  }
+});
+new Vue({
+  components: {
+    // 2. 注册组件，3.同时挂载到#app元素上使用组件
+    'App': App
+  },
+  template: '<App/>'
+}).$mount('#app') */
+
+全局注册组件
+1创建组件构造器
+  var App = Vue.extend({
+      template: '<p>This is a component</p>'
+  });
+  //2全局注册组件
+  Vue.component('App', App);
+  //3使用组件
+  var vm = new Vue({
+      el: '#app'
+  })
+
+// 简化以上两种写法
+new Vue({
+  el: '#app',
+  //注册组件的时候定义组件构造器
+  components: {
+    'App': {
+      template: '<p>This is a component, it belong {{name}}</p>',
+      data: function () {
+        return {
+          name:'world'
+        }
+      }
+    }
+  }
+})
+```
+# 11. 分析Component和Vue的关系：
+```
+VueComponent.prototype.__proto__ === Vue.prototype
+1.一个重要的内置关系：VueComponent.prototype.__proto__ === Vue.prototype
+2.为什么要有这个关系：让组件实例对象（vc）可以访问到 Vue原型上的属性、方法。
+组件实例对象（vc）是一个小型的vm ,没有el.data只能是对象式
+
+原文链接：https://blog.csdn.net/qq_14993591/article/details/121174829
+```
