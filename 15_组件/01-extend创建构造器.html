@@ -37,7 +37,7 @@
     });
     new Vue({
       components: {
-        // 2. 注册组件
+        // 2. 注册组件，3.同时挂载到#app元素上使用组件
         'App': App
       },
       template: '<App/>'
@@ -66,6 +66,9 @@
                   return {
                     name:'world'
                   }
+                },
+                mounted(){
+                  console.log(this)
                 }
             }
         }
