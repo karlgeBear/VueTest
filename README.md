@@ -56,9 +56,13 @@
 	包含多个属性监视的对象
 	分为一般监视和深度监视
 		'xxx' : {
+			handler : fun(value),
 			deep : true,
-			handler : fun(value)
+			immediate: false
 		}
+		1.第一个handler：其值是一个回调函数。即监听到变化时应该执行的函数。
+		2.第二个是deep：其值是true或false；确认是否深入监听。（一般监听时是不能监听到对象属性值的变化的，数组的值变化可以听到。）
+		3.第三个是immediate：其值是true或false；确认是否以当前的初始值执行handler的函数。
 	另一种添加监视方式: vm.$watch('xxx', funn)
 
 # 4. 过渡动画
